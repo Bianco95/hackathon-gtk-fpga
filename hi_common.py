@@ -204,11 +204,8 @@ def _install_stubs():
 
 
 def import_repo(cfg):
-    """Return the repo module src.models.Transformer (Encoder, EncoderONNX)."""
-    _install_stubs()
-    if cfg["repo"] not in sys.path:
-        sys.path.insert(0, cfg["repo"])
-    import src.models.Transformer as T
+    """Return the module with the GTK Transformer classes (Encoder, EncoderONNX): gtk_tracking.py, next to this file."""
+    import gtk_tracking as T
     return T
 
 
@@ -232,9 +229,8 @@ def repo_clean(cfg):
 
 
 def import_metrics(cfg):
-    if cfg["repo"] not in sys.path:
-        sys.path.insert(0, cfg["repo"])
-    import src.tools.support_functions_metrics as M
+    """Return the module with the GTK clustering and track functions: gtk_tracking.py, next to this file."""
+    import gtk_tracking as M
     return M
 
 
@@ -568,9 +564,7 @@ def iter_events(cfg, mcfg, split, limit=None):
     """Events of a split via the repo's TransformerDataset (same feature
     selection, incl. model.time), in numeric event-id order.
     Yields dict(name, features f32 [N,4], df, gt [K,2])."""
-    if cfg["repo"] not in sys.path:
-        sys.path.insert(0, cfg["repo"])
-    from src.Dataloader.Transformer.dataset import TransformerDataset
+    from gtk_tracking import TransformerDataset
     ds = TransformerDataset(mcfg, split)
     ds.features = sorted(ds.features, key=lambda f: int(f.split(".")[0].split("_")[-1]))
     n = len(ds) if limit is None else min(limit, len(ds))
